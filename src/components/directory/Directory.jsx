@@ -27,24 +27,20 @@ function Directory() {
       imageUrl: "https://i.ibb.co/GCCdy8t/womens.png",
       size: "large",
       id: 4,
-      linkUrl: "shop/womens",
+      linkUrl: "shop/women",
     },
     {
       title: "MEN",
       imageUrl: "https://i.ibb.co/R70vBrQ/men.png",
       size: "large",
       id: 5,
-      linkUrl: "shop/mens",
+      linkUrl: "shop/men",
     },
   ];
   return (
     <div className="directory-menu">
       {sections.map((section) => (
-        <MenuItem
-          key={section.id}
-          title={section.title}
-          imageUrl={section.imageUrl}
-        />
+        <MenuItem key={section.id} {...section} />
       ))}
     </div>
   );

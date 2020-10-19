@@ -3,26 +3,37 @@ import FormInput from "../form-input/FormInput";
 import CustomButton from "../custom-button/CustomButton";
 import "./SignIn.scss";
 
-import { signInWithGoogle } from "../../firebase/firebase.utils";
+import { auth, signInWithGoogle } from "../../firebase/firebase.utils";
 
 function SignIn() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [signInState, setSignInState] = useState({
+    email: "",
+    password: "",
+  });
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
-    setEmail("");
-    setPassword("");
+    try {
+      await auth.signInWithEmailAndPassword(
+        signInState.email,
+        signInState.password
+      );
+      setSignInState({
+        email: "",
+        password: "",
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    if (name === "email") {
-      setEmail(value);
-    } else {
-      setPassword(value);
-    }
+    setSignInState({
+      ...signInState,
+      [name]: value,
+    });
   };
   return (
     <div className="sign-in">
@@ -34,7 +45,7 @@ function SignIn() {
           label="Email"
           name="email"
           type="email"
-          value={email}
+          value={signInState.email}
           required
         />
 
@@ -43,7 +54,7 @@ function SignIn() {
           label="Password"
           name="password"
           type="password"
-          value={password}
+          value={signInState.password}
           required
         />
         <div className="buttons">
